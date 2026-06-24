@@ -1,0 +1,15 @@
+body {
+    background-color: #f0f8ff; /* 爽やかな薄い水色 */
+    color: #333333;           /* 濃いグレー（目に優しい黒） */
+    font-family: sans-serif;   /* すっきりした文字の形 */
+    padding: 40px;
+    text-align: center;        /* 文字を真ん中に寄せる */
+}
+
+/* 一番大きな見出し（h1）のデザイン */
+h1 {
+    color: #ff4500;           /* 燃えるようなオレンジ色 */
+    font-size: 32px;
+    border-bottom: 3px solid #ff4500; /* 下に線を引く */
+    padding-bottom: 10px;
+}
