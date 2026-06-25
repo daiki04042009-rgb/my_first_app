@@ -52,7 +52,7 @@ body {
 
 /* カード1つ1つのデザイン（白いボックス） */
 .card {
-    background-color: #ffffff; /* カードの背景は白 */
+    background-color: #4a3525; /* カードの背景は白 */
     color: #333333;           /* 文字は濃いグレー */
     width: 280px;             /* カードの横幅 */
     padding: 20px;            /* 内側のスキマ */
