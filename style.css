@@ -1,15 +1,200 @@
 body {
-    background-color: #f0f8ff; /* 爽やかな薄い水色 */
-    color: #333333;           /* 濃いグレー（目に優しい黒） */
-    font-family: sans-serif;   /* すっきりした文字の形 */
-    padding: 40px;
-    text-align: center;        /* 文字を真ん中に寄せる */
+    margin: 0;
+    padding: 0;
+    background-color: #4a3525; /* 落ち着いた茶色 */
+    font-family: sans-serif;
 }
 
-/* 一番大きな見出し（h1）のデザイン */
-h1 {
-    color: #ff4500;           /* 燃えるようなオレンジ色 */
-    font-size: 32px;
-    border-bottom: 3px solid #ff4500; /* 下に線を引く */
-    padding-bottom: 10px;
+/* 一番上のバー（ヘッダー）の横並び設定 */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* 左端と右端に分ける */
+    align-items: center;            /* 上下の真ん中に揃える */
+    padding: 20px 30px;             /* 内側の隙間 */
 }
+
+/* 左上のロゴ（太文字・白） */
+.logo {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold; /* 太文字 */
+    letter-spacing: 1px;
+}
+
+/* 右上のメニュー全体の並び */
+.menu-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* ログインと三本線の間の隙間 */
+}
+
+/* ログインボタン（白文字） */
+.login-btn {
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 横三本線マーク（白・少し大きめ） */
+.menu-icon {
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center; /* 真ん中に寄せる */
+    gap: 20px;               /* カードとカードの間の隙間 */
+    padding: 40px 20px;
+    flex-wrap: wrap;         /* 画面が狭くなったら自動で折り返す */
+}
+
+/* カード1つ1つのデザイン（白いボックス） */
+.card {
+    background-color: #ffffff; /* カードの背景は白 */
+    color: #333333;           /* 文字は濃いグレー */
+    width: 280px;             /* カードの横幅 */
+    padding: 20px;            /* 内側のスキマ */
+    border-radius: 12px;      /* 角を丸くする（おしゃれポイント！） */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* 下にうっすら影をつける */
+    transition: transform 0.3s; /* 動くときのスムーズさ */
+}
+
+/* マウスを乗せると、カードがふわっと浮き上がる仕掛け */
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-list {
+    padding-left: 20px;
+    line-height: 1.8;
+}
+.artist-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a3525;
+    text-align: center;
+    margin: 20px 0;
+}
+.show-date {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+}
+
+/* チケットボタンのデザイン */
+.ticket-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4500; /* 燃えるオレンジ */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.ticket-btn:hover {
+    background-color: #e03e00;
+}
+
+/* タグ（バッジ）のデザイン */
+.badge, .badge-next, .badge-ticket {
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #5c4331, #2c1e14); /* 高級感のある茶色のグラデーション */
+    color: #ffffff;
+    padding: 80px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    animation: fadeInUp 1.2s ease-out;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 小さな英語のタグ */
+.hero-tag {
+    font-size: 14px;
+    color: #ff4500; /* アクセントのオレンジ */
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* 一番大きなキャッチコピー */
+.hero-title {
+    font-size: 38px;
+    margin: 20px 0;
+    font-weight: bold;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* 説明文 */
+.hero-text {
+    font-size: 16px;
+    color: #dfdfdf;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+/* ボタンの並び */
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* メインのオレンジボタン */
+.btn-primary {
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px; /* 丸みのあるボタン */
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+}
+
+/* サブの透明ボタン */
+.btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;                /* 最初は透明 */
+        transform: translateY(30px); /* 最初は30ピクセル下にずらしておく */
+    }
+    100% {
+        opacity: 1;                /* 最終的にくっきり表示 */
+        transform: translateY(0);    /* 元の位置に戻る */
+    }
+}
+
+.btn-primary:hover { background-color: #e03e00; }
+.btn-secondary:hover { background-color: rgba(255,255,255,0.1); }
+.badge { background-color: #00bfff; }
+.badge-next { background-color: #32cd32; }
+.badge-ticket { background-color: #ff1493; }

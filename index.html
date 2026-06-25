@@ -3,15 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>復活のマイアプリ</title>
-    
+    <title>SONORIA</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>ここから新しい伝説が始まる！</h1>
-    <p>大貴さんの新しいHTML・CSS・JSアプリの画面です。</p>
+    <header class="navbar">
+        <div class="logo">SONORIA</div>
+        <div class="menu-right">
+            <span class="login-btn">ログイン</span>
+            <span class="menu-icon">☰</span> </div>
+    </header>
 
-    <script src="script.js"></script>
+    <section class="hero-section">
+        <div class="hero-content">
+            <span class="hero-tag">SNS × REAL MUSIC SHOW</span>
+            <h1 class="hero-title">音楽の新しい響きを、ここから。</h1>
+            <p class="hero-text">SONORIAは、SNS発の人気楽曲とリアルなコンサートを繋ぐ、全く新しい形の音楽番組です。</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">今すぐ視聴する</button>
+                <button class="btn-secondary">最新ニュース</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="card-container">
+        <div class="card">
+            <span class="badge">TREND</span>
+            <h3>SNS人気楽曲 TOP3</h3>
+            <ol class="card-list">
+                <li>1位 ✨ 新着トレンド曲A</li>
+                <li>2位 🔥 SNSバズり中の曲B</li>
+                <li>3位 🎧 話題のインディーズC</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <span class="badge-next">NEXT SHOW</span>
+            <h3>次回の出演アーティスト</h3>
+            <p class="artist-name">【 ゲスト：○○○○ 】</p>
+            <p class="show-date">次回配信：7月1日(水) 20:00〜</p>
+        </div>
+
+        <div class="card">
+            <span class="badge-ticket">TICKET</span>
+            <h3>リアルコンサート情報</h3>
+            <p class="ticket-info">SONORIA Special Live 2026</p>
+            <button class="ticket-btn">チケット購入・詳細</button>
+        </div>
+    </main>
+
 </body>
 </html>
