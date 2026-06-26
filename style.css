@@ -1,16 +1,24 @@
+/* ==========================================
+   1. 全体・ベースの設定
+   ========================================== */
 body {
     margin: 0;
     padding: 0;
     background-color: #4a3525; /* 落ち着いた茶色 */
     font-family: sans-serif;
+    overflow-x: hidden;        /* 横揺れ防止 */
 }
 
+/* ==========================================
+   2. ヘッダー（一番上のバー）
+   ========================================== */
 /* 一番上のバー（ヘッダー）の横並び設定 */
 .navbar {
     display: flex;
     justify-content: space-between; /* 左端と右端に分ける */
     align-items: center;            /* 上下の真ん中に揃える */
     padding: 20px 30px;             /* 内側の隙間 */
+    position: relative;
 }
 
 /* 左上のロゴ（太文字・白） */
@@ -35,82 +43,82 @@ body {
     cursor: pointer;
 }
 
-/* 横三本線マーク（白・少し大きめ） */
+/* ★アニメーションする横三本線マークの土台 */
 .menu-icon {
-    color: #ffffff;
-    font-size: 24px;
+    width: 30px;
+    height: 20px;
+    position: relative;
     cursor: pointer;
-}
-
-.card-container {
     display: flex;
-    justify-content: center; /* 真ん中に寄せる */
-    gap: 20px;               /* カードとカードの間の隙間 */
-    padding: 40px 20px;
-    flex-wrap: wrap;         /* 画面が狭くなったら自動で折り返す */
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 100; /* メニューより上に表示 */
 }
 
-/* カード1つ1つのデザイン（白いボックス） */
-.card {
-    background-color: #4a3525; /* カードの背景は白 */
-    color: #333333;           /* 文字は濃いグレー */
-    width: 280px;             /* カードの横幅 */
-    padding: 20px;            /* 内側のスキマ */
-    border-radius: 12px;      /* 角を丸くする（おしゃれポイント！） */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* 下にうっすら影をつける */
-    transition: transform 0.3s; /* 動くときのスムーズさ */
-}
-
-/* マウスを乗せると、カードがふわっと浮き上がる仕掛け */
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-list {
-    padding-left: 20px;
-    line-height: 1.8;
-}
-.artist-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #4a3525;
-    text-align: center;
-    margin: 20px 0;
-}
-.show-date {
-    font-size: 13px;
-    color: #666;
-    text-align: center;
-}
-
-/* チケットボタンのデザイン */
-.ticket-btn {
+/* 三本線の「線」そのもののデザイン */
+.menu-icon span {
     display: block;
     width: 100%;
-    padding: 10px;
-    background-color: #ff4500; /* 燃えるオレンジ */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-}
-.ticket-btn:hover {
-    background-color: #e03e00;
+    height: 3px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease; /* 滑らかに変形させる */
 }
 
-/* タグ（バッジ）のデザイン */
-.badge, .badge-next, .badge-ticket {
-    font-size: 11px;
-    font-weight: bold;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 10px;
+/* ボタンが押されて「active」クラスがついた時、三本線を「✕」にする */
+.menu-icon.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.menu-icon.active span:nth-child(2) {
+    opacity: 0; /* 真ん中の線は消す */
+}
+.menu-icon.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
 }
 
+/* ==========================================
+   2.5. 右側に隠れているメニュー画面
+   ========================================== */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -250px; /* 横幅分（250px）だけ右側の画面外に隠しておく */
+    width: 250px;
+    height: 100vh;
+    background-color: #2c1e14; /* 高級感のある濃い茶色 */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    padding-top: 80px;
+    transition: right 0.3s ease; /* 滑らかにスライドさせる */
+    z-index: 90;
+}
+
+/* 「active」クラスがついたら、画面内に引っ張り出す */
+.side-menu.active {
+    right: 0;
+}
+
+/* メニューの中のリンク文字 */
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.side-menu ul li a {
+    display: block;
+    padding: 15px 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.side-menu ul li a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* ==========================================
+   3. ヒーローエリア（メインビジュアル）
+   ========================================== */
 .hero-section {
     background: linear-gradient(135deg, #5c4331, #2c1e14); /* 高級感のある茶色のグラデーション */
     color: #ffffff;
@@ -168,7 +176,9 @@ body {
     border-radius: 25px; /* 丸みのあるボタン */
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+    transition: background-color 0.3s;
 }
+.btn-primary:hover { background-color: #e03e00; }
 
 /* サブの透明ボタン */
 .btn-secondary {
@@ -180,8 +190,110 @@ body {
     font-weight: bold;
     border-radius: 25px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-secondary:hover { background-color: rgba(255,255,255,0.1); }
+
+/* ==========================================
+   4. メインコンテンツ（カードエリア）
+   ========================================== */
+.card-container {
+    display: flex;
+    justify-content: center; /* 真ん中に寄せる */
+    gap: 20px;               /* カードとカードの間の隙間 */
+    padding: 40px 20px;
+    flex-wrap: wrap;         /* 画面が狭くなったら自動で折り返す */
 }
 
+.card {
+    background-color: rgba(255, 255, 255, 0.05); /* ほんのり半透明の背景 */
+    color: #ffffff;           /* 文字をすべて白にする */
+    width: 280px;             /* カードの横幅 */
+    padding: 20px;            /* 内側のスキマ */
+    border-radius: 12px;      /* 角を丸くする */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 白くて細い枠線 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    transition: transform 0.3s; /* 動くときのスムーズさ */
+}
+
+/* マウスを乗せると、カードがふわっと浮き上がる仕掛け */
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-list {
+    padding-left: 20px;
+    line-height: 1.8;
+    color: #ffffff; /* リストの文字も白に */
+}
+
+.artist-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.show-date {
+    font-size: 13px;
+    color: #cccccc;
+    text-align: center;
+}
+
+/* チケットボタンのデザイン */
+.ticket-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4500; /* 燃えるオレンジ */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+.ticket-btn:hover {
+    background-color: #e03e00;
+}
+
+/* タグ（バッジ）のデザイン */
+.badge, .badge-next, .badge-ticket {
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+.badge { background-color: #00bfff; }
+.badge-next { background-color: #32cd32; }
+.badge-ticket { background-color: #ff1493; }
+
+/* ==========================================
+   5. フッター（一番下のお知らせ・著作権）
+   ========================================== */
+.site-footer {
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 60px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.2); /* ほんのり黒を混ぜて引き締める */
+}
+
+.site-footer p {
+    font-size: 12px;
+    color: #888888; /* 控えめなグレーの文字 */
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* ==========================================
+   6. アニメーション設定
+   ========================================== */
 @keyframes fadeInUp {
     0% {
         opacity: 0;                /* 最初は透明 */
@@ -192,9 +304,3 @@ body {
         transform: translateY(0);    /* 元の位置に戻る */
     }
 }
-
-.btn-primary:hover { background-color: #e03e00; }
-.btn-secondary:hover { background-color: rgba(255,255,255,0.1); }
-.badge { background-color: #00bfff; }
-.badge-next { background-color: #32cd32; }
-.badge-ticket { background-color: #ff1493; }
