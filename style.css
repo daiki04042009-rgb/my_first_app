@@ -43,6 +43,21 @@ body {
     cursor: pointer;
 }
 
+.login-btn-new {
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.login-btn-new:hover {
+    background-color: #e03e00;
+}
+
 /* ★アニメーションする横三本線マークの土台 */
 .menu-icon {
     width: 30px;

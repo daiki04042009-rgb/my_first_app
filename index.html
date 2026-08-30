@@ -5,18 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SONORIA</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithPopup,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCkAxYIZAfs_hwCV7tT8wINx0XOEkq60gY",
+        authDomain: "flutter-application-1-42d8a.firebaseapp.com",
+        projectId: "flutter-application-1-42d8a",
+        storageBucket: "flutter-application-1-42d8a.firebasestorage.app",
+        messagingSenderId: "840536446474",
+        appId: "1:840536446474:web:16e65e3f90f7713084f1f3",
+        measurementId: "G-PVYD8ELKJY",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
+      // 🌟 ログイン状態を監視して、ボタンの表示を切り替える
+      onAuthStateChanged(auth, (user) => {
+        const loginBtn = document.getElementById("loginBtn");
+        if (!loginBtn) return;
+
+        if (user) {
+          loginBtn.textContent = `${user.displayName || "ログイン中"} ▾`;
+        } else {
+          loginBtn.textContent = "inPageログイン";
+        }
+      });
+
+      // 🌟 ボタンクリックでログイン/ログアウトを切り替え
+      window.handleLoginClick = async () => {
+        if (auth.currentUser) {
+          await signOut(auth);
+          return;
+        }
+        try {
+          await signInWithPopup(auth, provider);
+        } catch (e) {
+          alert("ログインに失敗しました: " + e.message);
+        }
+      };
+    </script>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="logo">SONORIA</div>
-        <div class="menu-right">
-            <div class="menu-icon" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div> 
-        </div>
+    <div class="logo">SONORIA</div>
+    <div class="menu-right">
+        <button id="loginBtn" class="login-btn-new" onclick="handleLoginClick()">
+            inPageログイン
+        </button>
+        <div class="menu-icon" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div> 
+    </div>
     </header>
 
     <nav class="side-menu" id="sideMenu">
