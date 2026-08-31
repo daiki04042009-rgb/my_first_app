@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <!-- SEO -->
+    <title>inPage(インページ) - SNS×音楽ライブアプリ</title>
+    <meta name="description" content="inPage(インページ)は、好きなアーティストと繋がり、ライブの感動をシェアできるSNS×音楽ライブアプリです。ここをタップしてアプリを開こう。運営: SoNoRIA">
+ 
+    <!-- OGP(SNSでシェアされた際の表示) -->
+    <meta property="og:title" content="inPage(インページ) - SNS×音楽ライブアプリ">
+    <meta property="og:description" content="好きなアーティストと繋がり、ライブの感動をシェアできる音楽SNS「inPage」。">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="inPage">
+ 
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .redirect-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #5c4331, #2c1e14);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .redirect-logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .redirect-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top-color: #ff4500;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 24px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .redirect-text {
+            font-size: 16px;
+            color: #dfdfdf;
+            margin-bottom: 30px;
+        }
+        .redirect-manual-btn {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="redirect-logo">inPage</div>
+        <div class="redirect-spinner"></div>
+        <p class="redirect-text">アプリを起動しています...</p>
+        <a href="#" id="manualBtn" class="redirect-manual-btn" style="display:none;">
+            アプリを開く / インストールする
+        </a>
+    </div>
+ 
+    <script>
+        // 🌟 アプリへの導線となるカスタムURLスキーム
+        const APP_SCHEME = "sonoria://open";
+ 
+        // 🌟 ストアのURL(まだ未公開のため仮のプレースホルダー)
+        const IOS_STORE_URL = "https://apps.apple.com/app/idXXXXXXXXXX"; // ← 公開後に差し替え
+        const ANDROID_STORE_URL = "https://play.google.com/store/apps/details?id=com.SoNoRIA.inPage"; // ← 公開後に確認
+ 
+        function getStoreUrl() {
+            const ua = navigator.userAgent;
+            if (/iPhone|iPad|iPod/i.test(ua)) {
+                return IOS_STORE_URL;
+            }
+            if (/Android/i.test(ua)) {
+                return ANDROID_STORE_URL;
+            }
+            return null; // PCの場合はストアに飛ばさない
+        }
+ 
+        function goToStoreOrFallback() {
+            const storeUrl = getStoreUrl();
+            const manualBtn = document.getElementById("manualBtn");
+ 
+            if (storeUrl) {
+                manualBtn.href = storeUrl;
+                manualBtn.textContent = "アプリをインストールする";
+            } else {
+                manualBtn.href = "index.html";
+                manualBtn.textContent = "ホームに戻る";
+            }
+            manualBtn.style.display = "inline-block";
+            document.querySelector(".redirect-text").textContent =
+                "アプリが見つかりませんでした";
+            document.querySelector(".redirect-spinner").style.display = "none";
+        }
+ 
+        // 🌟 アプリを開こうと試みる
+        window.location.href = APP_SCHEME;
+ 
+        // 🌟 一定時間後、アプリが開かなければフォールバック表示
+        const fallbackTimer = setTimeout(goToStoreOrFallback, 1800);
+ 
+        // 🌟 アプリに切り替わってこのページが非表示になったら、
+        //     フォールバック処理をキャンセル(=アプリが開けた)
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                clearTimeout(fallbackTimer);
+            }
+        });
+    </script>
+</body>
+</html>

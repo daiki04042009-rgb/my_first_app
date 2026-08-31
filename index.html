@@ -13,9 +13,8 @@
         GoogleAuthProvider,
         signInWithPopup,
         onAuthStateChanged,
-        signOut,
       } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
+ 
       const firebaseConfig = {
         apiKey: "AIzaSyCkAxYIZAfs_hwCV7tT8wINx0XOEkq60gY",
         authDomain: "flutter-application-1-42d8a.firebaseapp.com",
@@ -25,31 +24,34 @@
         appId: "1:840536446474:web:16e65e3f90f7713084f1f3",
         measurementId: "G-PVYD8ELKJY",
       };
-
+ 
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
-
-      // 🌟 ログイン状態を監視して、ボタンの表示を切り替える
+ 
+      // 🌟 ログイン状態を監視して、ボタンの表示をアプリと同期させる
       onAuthStateChanged(auth, (user) => {
         const loginBtn = document.getElementById("loginBtn");
         if (!loginBtn) return;
-
+ 
         if (user) {
           loginBtn.textContent = `${user.displayName || "ログイン中"} ▾`;
         } else {
           loginBtn.textContent = "inPageログイン";
         }
       });
-
-      // 🌟 ボタンクリックでログイン/ログアウトを切り替え
+ 
+      // 🌟 ボタンを押したときの挙動
+      //    ログイン済み → そのままinPageへ(=アプリが開く)
+      //    未ログイン   → Googleログイン → 成功したらそのままinPageへ
       window.handleLoginClick = async () => {
         if (auth.currentUser) {
-          await signOut(auth);
+          window.location.href = "inpage.html";
           return;
         }
         try {
           await signInWithPopup(auth, provider);
+          window.location.href = "inpage.html";
         } catch (e) {
           alert("ログインに失敗しました: " + e.message);
         }
@@ -57,7 +59,7 @@
     </script>
 </head>
 <body>
-
+ 
     <header class="navbar">
     <div class="logo">SONORIA</div>
     <div class="menu-right">
@@ -71,7 +73,7 @@
         </div> 
     </div>
     </header>
-
+ 
     <nav class="side-menu" id="sideMenu">
         <ul>
             <li><a href="#">インフォメーション</a></li>
@@ -81,7 +83,7 @@
             <li><a href="#">企業情報</a></li>
         </ul>
     </nav>
-
+ 
     <section class="hero-section">
         <div class="hero-content">
             <span class="hero-tag">LIVE MUSIC SHOW</span>
@@ -93,7 +95,7 @@
             </div>
         </div>
     </section>
-
+ 
     <main class="card-container">
         <div class="card">
             <span class="badge">TREND</span>
@@ -104,14 +106,14 @@
                 <li>3位 🎧 話題のインディーズC</li>
             </ol>
         </div>
-
+ 
         <div class="card">
             <span class="badge-next">NEXT SHOW</span>
             <h3>次回の出演アーティスト</h3>
-            <p class="artist-name">【 ゲスト：○○○○ 】</p>
-            <p class="show-date">次回配信：7月1日(水) 20:00〜</p>
+            <p class="artist-name">【 ゲスト:○○○○ 】</p>
+            <p class="show-date">次回配信:7月1日(水) 20:00〜</p>
         </div>
-
+ 
         <div class="card">
             <span class="badge-ticket">TICKET</span>
             <h3>リアルコンサート情報</h3>
@@ -119,11 +121,11 @@
             <button class="ticket-btn">チケット購入・詳細</button>
         </div>
     </main>
-
+ 
     <footer class="site-footer">
         <p>© 2026 SONORIA. All Rights Reserved.</p>
     </footer>
-
+ 
     <script src="script.js"></script>
 </body>
 </html>
