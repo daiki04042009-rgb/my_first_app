@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+
     <!-- SEO -->
     <title>inPage(インページ) - SNS×音楽ライブアプリ</title>
     <meta name="description" content="inPage(インページ)は、好きなアーティストと繋がり、ライブの感動をシェアできるSNS×音楽ライブアプリです。ここをタップしてアプリを開こう。運営: SoNoRIA">
- 
+
     <!-- OGP(SNSでシェアされた際の表示) -->
     <meta property="og:title" content="inPage(インページ) - SNS×音楽ライブアプリ">
     <meta property="og:description" content="好きなアーティストと繋がり、ライブの感動をシェアできる音楽SNS「inPage」。">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="inPage">
- 
+
     <link rel="stylesheet" href="style.css">
     <style>
         .redirect-container {
@@ -61,67 +61,106 @@
             text-decoration: none;
             display: inline-block;
         }
+        /* PC向けQRコード表示エリア */
+        .qr-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        .qr-box img {
+            width: 220px;
+            height: 220px;
+            background: white;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+        .qr-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .qr-text {
+            font-size: 15px;
+            color: #dfdfdf;
+            max-width: 360px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="redirect-container">
         <div class="redirect-logo">inPage</div>
-        <div class="redirect-spinner"></div>
-        <p class="redirect-text">アプリを起動しています...</p>
-        <a href="#" id="manualBtn" class="redirect-manual-btn" style="display:none;">
-            アプリを開く / インストールする
-        </a>
+
+        <!-- スマホ用: アプリ自動起動 -->
+        <div id="mobileBox">
+            <div class="redirect-spinner"></div>
+            <p class="redirect-text">アプリを起動しています...</p>
+            <a href="#" id="manualBtn" class="redirect-manual-btn" style="display:none;">
+                アプリを開く / インストールする
+            </a>
+        </div>
+
+        <!-- PC用: QRコード表示 -->
+        <div id="qrBox" class="qr-box">
+            <p class="qr-title">スマホでQRコードを読み取ってください</p>
+            <img id="qrImage" src="" alt="inPageアプリを開くQRコード">
+            <p class="qr-text">inPageはスマホアプリです。<br>お使いのスマートフォンのカメラでこのQRコードを読み取ると、アプリが開きます。</p>
+        </div>
     </div>
- 
+
     <script>
         // 🌟 アプリへの導線となるカスタムURLスキーム
         const APP_SCHEME = "sonoria://open";
- 
+
         // 🌟 ストアのURL(まだ未公開のため仮のプレースホルダー)
         const IOS_STORE_URL = "https://apps.apple.com/app/idXXXXXXXXXX"; // ← 公開後に差し替え
         const ANDROID_STORE_URL = "https://play.google.com/store/apps/details?id=com.SoNoRIA.inPage"; // ← 公開後に確認
- 
-        function getStoreUrl() {
-            const ua = navigator.userAgent;
-            if (/iPhone|iPad|iPod/i.test(ua)) {
-                return IOS_STORE_URL;
+
+        const ua = navigator.userAgent;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
+
+        if (isMobile) {
+            // ===== スマホ: 今まで通り自動でアプリを開こうとする =====
+            function getStoreUrl() {
+                if (/iPhone|iPad|iPod/i.test(ua)) return IOS_STORE_URL;
+                if (/Android/i.test(ua)) return ANDROID_STORE_URL;
+                return null;
             }
-            if (/Android/i.test(ua)) {
-                return ANDROID_STORE_URL;
+
+            function goToStoreOrFallback() {
+                const storeUrl = getStoreUrl();
+                const manualBtn = document.getElementById("manualBtn");
+                if (storeUrl) {
+                    manualBtn.href = storeUrl;
+                    manualBtn.textContent = "アプリをインストールする";
+                } else {
+                    manualBtn.href = "index.html";
+                    manualBtn.textContent = "ホームに戻る";
+                }
+                manualBtn.style.display = "inline-block";
+                document.querySelector(".redirect-text").textContent = "アプリが見つかりませんでした";
+                document.querySelector(".redirect-spinner").style.display = "none";
             }
-            return null; // PCの場合はストアに飛ばさない
+
+            window.location.href = APP_SCHEME;
+            const fallbackTimer = setTimeout(goToStoreOrFallback, 1800);
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) clearTimeout(fallbackTimer);
+            });
+
+        } else {
+            // ===== PC: アプリ起動は試みず、QRコードを表示する =====
+            document.getElementById("mobileBox").style.display = "none";
+            const qrBox = document.getElementById("qrBox");
+            qrBox.style.display = "flex";
+
+            // このページ自身のURLをQRコードにする(スマホで読み取ると、上のスマホ用ロジックが動く)
+            const pageUrl = window.location.origin + window.location.pathname;
+            const qrApiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(pageUrl);
+            document.getElementById("qrImage").src = qrApiUrl;
         }
- 
-        function goToStoreOrFallback() {
-            const storeUrl = getStoreUrl();
-            const manualBtn = document.getElementById("manualBtn");
- 
-            if (storeUrl) {
-                manualBtn.href = storeUrl;
-                manualBtn.textContent = "アプリをインストールする";
-            } else {
-                manualBtn.href = "index.html";
-                manualBtn.textContent = "ホームに戻る";
-            }
-            manualBtn.style.display = "inline-block";
-            document.querySelector(".redirect-text").textContent =
-                "アプリが見つかりませんでした";
-            document.querySelector(".redirect-spinner").style.display = "none";
-        }
- 
-        // 🌟 アプリを開こうと試みる
-        window.location.href = APP_SCHEME;
- 
-        // 🌟 一定時間後、アプリが開かなければフォールバック表示
-        const fallbackTimer = setTimeout(goToStoreOrFallback, 1800);
- 
-        // 🌟 アプリに切り替わってこのページが非表示になったら、
-        //     フォールバック処理をキャンセル(=アプリが開けた)
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden) {
-                clearTimeout(fallbackTimer);
-            }
-        });
     </script>
 </body>
 </html>
